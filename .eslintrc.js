@@ -52,7 +52,7 @@ module.exports = {
         ],
         "react/jsx-props-no-spreading": "off",
         "import/extensions": [
-            "error",
+            "off",
             "ignorePackages",
             {
                 js: "never",
@@ -71,5 +71,6 @@ module.exports = {
         ],
         "no-nested-ternary": "off",
         "import/prefer-default-export": "off",
+        "import/no-unresolved": "off",
     },
 };
