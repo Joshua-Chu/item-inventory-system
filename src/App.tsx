@@ -6,6 +6,7 @@ function App() {
             Hello World
             <span>Joshua Chu handsome</span>
             <span>another test</span>
+            <span>another test</span>
         </h1>
     );
 }
