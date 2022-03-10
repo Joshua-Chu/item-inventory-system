@@ -1,6 +1,26 @@
+@import "~react-datepicker/dist/react-datepicker.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    input,
+    textarea {
+        @apply border-[2px] border-gray-300 p-2 rounded-md w-full;
+    }
+
+    textarea {
+        @apply w-full resize-none;
+    }
+
+    label {
+        @apply text-lg;
+    }
+
+    .field-error {
+        @apply text-red-500;
+    }
+}
 
 body {
     margin: 0;
