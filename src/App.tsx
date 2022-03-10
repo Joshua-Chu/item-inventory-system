@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Layout } from "./components/Layout";
+import { Navbar } from "./components/Navbar";
 import { useWindowSize } from "./hooks/useWindowSize";
 
 function App() {
@@ -15,30 +16,10 @@ function App() {
 
     return (
         <Layout>
-            <div className="bg-gray-800 text-gray-100 flex justify-between md:hidden">
-                <button
-                    onClick={() => {
-                        setIsSideBarOpen(!isSideBarOpen);
-                    }}
-                    type="button"
-                    className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-700 self-end"
-                >
-                    <svg
-                        className="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        />
-                    </svg>
-                </button>
-            </div>
+            <Navbar
+                isSideBarOpen={isSideBarOpen}
+                setIsSideBarOpen={setIsSideBarOpen}
+            />
 
             <div
                 className={`sidebar bg-blue-800 text-blue-100 w-64  space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform opacity-0 md:opacity-100 -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out md:basis-1/4 ${
