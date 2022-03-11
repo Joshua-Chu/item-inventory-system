@@ -4,13 +4,10 @@ import DatePicker from "react-datepicker";
 import { useState } from "react";
 
 import * as Yup from "yup";
+import toast from "react-hot-toast";
+import { FormValues } from "../../types/formvalues";
+import { useAppContext } from "../../store/AppProvider";
 
-interface Values {
-    name: string;
-    description: string;
-    imageURL: string;
-    date: Date;
-}
 const imageURLregex =
     /(http(s?):)([/|.|\w|\s|-])*\.(jpg|jpeg|png|webp|avif|gif|svg)/g;
 
@@ -25,10 +22,13 @@ const itemSchema = Yup.object().shape({
 });
 
 export function ItemForm() {
+    const { addItem, items } = useAppContext();
     const [startDate, setStartDate] = useState(new Date());
     return (
         <div className=" flex flex-col basis-full items-center">
-            <h1 className="mb-6 text-3xl font-bold">Create Item</h1>
+            <h1 className="mb-6 text-3xl font-bold">
+                Create Item {items.length}
+            </h1>
             <Formik
                 initialValues={{
                     name: "",
@@ -38,12 +38,15 @@ export function ItemForm() {
                 }}
                 validationSchema={itemSchema}
                 onSubmit={(
-                    values: Values,
-                    { setSubmitting, resetForm }: FormikHelpers<Values>
+                    values: FormValues,
+                    { setSubmitting, resetForm }: FormikHelpers<FormValues>
                 ) => {
-                    console.log(values);
+                    addItem(values);
                     setSubmitting(false);
                     resetForm();
+                    toast.success("Successfully saved 1 item!", {
+                        position: "top-right",
+                    });
                 }}
             >
                 {({ errors, touched }) => (

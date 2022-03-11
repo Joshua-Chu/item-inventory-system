@@ -1,4 +1,4 @@
-export type Item = {
+export type FormValues = {
     name: string;
     description: string;
     imageURL: string;
