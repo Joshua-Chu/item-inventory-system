@@ -1,7 +1,7 @@
 import { useAppContext } from "../../store/AppProvider";
 
 export function ItemView() {
-    const { currentView } = useAppContext();
+    const { currentView, deleteItem } = useAppContext();
     return (
         <div className="border-2 border-gray-300 rounded-lg w-full p-4">
             {currentView && (
@@ -10,6 +10,7 @@ export function ItemView() {
                         <button
                             type="button"
                             className="px-4 py-2 border-2 border-gray-300 rounded-xl mr-4 hover:bg-red-300 hover:border-red-300 hover:text-white"
+                            onClick={() => deleteItem(currentView.id)}
                         >
                             delete
                         </button>

@@ -15,9 +15,10 @@ export type appContextType = {
     setIsSideBarOpen: (curr: boolean) => void;
     name: string;
     items: Item[];
-    addItem: (val: FormValues) => void;
     currentView: Item | null;
     setCurrentView: (value: Item | null) => void;
+    addItem: (val: FormValues) => void;
+    deleteItem: (id: string) => void;
 };
 
 const AppContext = createContext<appContextType>({} as appContextType);
@@ -53,6 +54,19 @@ export function AppProvider({ children }: Props) {
             };
             const newItems = [...items, newItem];
             setStoredItems(newItems);
+            setCurrentView(newItem);
+        },
+        [items, setStoredItems]
+    );
+
+    const deleteItem = useCallback(
+        (id: string) => {
+            const targetItem = items.find(item => item.id === id);
+            if (targetItem) {
+                const newItems = items.filter(item => item.id !== id);
+                setStoredItems(newItems);
+                setCurrentView(null);
+            }
         },
         [items, setStoredItems]
     );
@@ -66,7 +80,8 @@ export function AppProvider({ children }: Props) {
             setCurrentView,
             isSideBarOpen,
             setIsSideBarOpen,
+            deleteItem,
         };
-    }, [items, addItem, currentView, isSideBarOpen]);
+    }, [items, addItem, deleteItem, currentView, isSideBarOpen]);
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
