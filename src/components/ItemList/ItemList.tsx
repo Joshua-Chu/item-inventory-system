@@ -7,9 +7,7 @@ export function ItemList() {
         <div className="text-black grid gap-2   ">
             {filteredList &&
                 filteredList.length > 0 &&
-                filteredList.map(item => (
-                    <ItemPill key={item.id} item={item} />
-                ))}
+                filteredList.map(item => <ItemPill key={item.id} {...item} />)}
         </div>
     );
 }

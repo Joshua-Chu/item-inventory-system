@@ -72,7 +72,7 @@ module.exports = {
         "no-nested-ternary": "off",
         "import/prefer-default-export": "off",
         "import/no-unresolved": "off",
-
+        "testing-library/prefer-screen-queries": "off",
         "jsx-a11y/label-has-associated-control": "off",
     },
 };

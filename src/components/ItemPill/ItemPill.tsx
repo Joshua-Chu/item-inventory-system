@@ -1,24 +1,37 @@
 import { useAppContext } from "../../store/AppProvider";
-import { Item } from "../../types/item";
 
 type ItemPillProps = {
-    item: Item;
+    name: string;
+    description: string;
+    imageURL: string;
+    id: string;
+    date: string;
 };
-export function ItemPill({ item }: ItemPillProps) {
+export function ItemPill({
+    name,
+    description,
+    id,
+    date,
+    imageURL,
+}: ItemPillProps) {
     const { setCurrentView, setIsSideBarOpen, currentView } = useAppContext();
     return (
         <div
             className={`border-2 border-gray-300 py-2 px-4 rounded-lg break-all cursor-pointer ${
-                currentView && currentView.id === item.id ? "bg-gray-200" : ""
+                currentView && currentView.id === id ? "bg-gray-200" : ""
             }`}
             role="none"
             onClick={() => {
-                setCurrentView(item);
+                setCurrentView({ name, description, id, date, imageURL });
                 setIsSideBarOpen(false);
             }}
         >
-            <p>Name: {item.name}</p>
-            <p>Date: {item.date}</p>
+            <p>
+                Name: <span>{name}</span>
+            </p>
+            <p>
+                Date: <span>{date}</span>
+            </p>
         </div>
     );
 }
