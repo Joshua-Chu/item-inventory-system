@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import "./App.css";
+import { useEffect } from "react";
 import { Layout } from "./components/Layout";
 import { Main } from "./components/Main";
 import { Navbar } from "./components/Navbar";
@@ -15,7 +15,7 @@ function App() {
         if (width && width > 768) {
             setIsSideBarOpen(false);
         }
-    }, [width]);
+    }, [width, setIsSideBarOpen]);
 
     return (
         <Layout>

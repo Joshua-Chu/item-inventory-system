@@ -1,5 +1,6 @@
 import { useAppContext } from "../../store/AppProvider";
 import { ItemList } from "../ItemList";
+import { Search } from "../Search";
 
 export function SideBar() {
     const { setIsSideBarOpen, isSideBarOpen, setCurrentView } = useAppContext();
@@ -59,6 +60,8 @@ export function SideBar() {
                     <p>Add Item</p>
                 </button>
             </div>
+
+            <Search />
 
             <ItemList />
         </div>

@@ -21,6 +21,9 @@ export type appContextType = {
     addItem: (val: FormValues) => void;
     deleteItem: (id: string) => void;
     editItem: (val: EditFormValues) => void;
+    searchTerm: string;
+    setSearchTerm: (val: string) => void;
+    filteredList: Item[];
 };
 
 const AppContext = createContext<appContextType>({} as appContextType);
@@ -37,6 +40,8 @@ export function AppProvider({ children }: Props) {
     const [isSideBarOpen, setIsSideBarOpen] = useState(false);
     const [items, setStoredItems] = useItemStorage<Item[]>("items", []);
     const [currentView, setCurrentView] = useState<Item | null>(null);
+
+    const [searchTerm, setSearchTerm] = useState("");
 
     const transformDate = (date: Date) => {
         const arrDate = new Date(date).toLocaleDateString().split("/");
@@ -93,18 +98,38 @@ export function AppProvider({ children }: Props) {
         [items, setStoredItems]
     );
 
+    const filteredList = useMemo(() => {
+        if (searchTerm === "") return items;
+
+        return items.filter(
+            item => item.name.includes(searchTerm.toLowerCase()) && item
+        );
+    }, [items, searchTerm]);
+
     const value = useMemo(() => {
         return {
-            name: "",
-            items,
-            addItem,
-            currentView,
-            setCurrentView,
             isSideBarOpen,
             setIsSideBarOpen,
+            name: "",
+            items,
+            currentView,
+            setCurrentView,
+            addItem,
             deleteItem,
             editItem,
+            searchTerm,
+            setSearchTerm,
+            filteredList,
         };
-    }, [items, addItem, deleteItem, currentView, isSideBarOpen, editItem]);
+    }, [
+        items,
+        addItem,
+        deleteItem,
+        currentView,
+        isSideBarOpen,
+        editItem,
+        searchTerm,
+        filteredList,
+    ]);
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
