@@ -1,9 +1,7 @@
-type NavbarProps = {
-    setIsSideBarOpen: (curr: boolean) => void;
-    isSideBarOpen: boolean;
-};
+import { useAppContext } from "../../store/AppProvider";
 
-export function Navbar({ setIsSideBarOpen, isSideBarOpen }: NavbarProps) {
+export function Navbar() {
+    const { setIsSideBarOpen, isSideBarOpen } = useAppContext();
     return (
         <div className="bg-gray-800 text-gray-100 flex justify-between md:hidden rounded-t-md">
             <button

@@ -1,10 +1,9 @@
+import { useAppContext } from "../../store/AppProvider";
 import { ItemForm } from "../ItemForm";
 
-type MainProps = {
-    setIsSideBarOpen: (curr: boolean) => void;
-};
+export function Main() {
+    const { setIsSideBarOpen } = useAppContext();
 
-export function Main({ setIsSideBarOpen }: MainProps) {
     return (
         <div
             role="none"

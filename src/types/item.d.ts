@@ -2,5 +2,5 @@ export type Item = {
     name: string;
     description: string;
     imageURL: string;
-    date: Date;
+    date: string;
 };
