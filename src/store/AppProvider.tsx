@@ -5,9 +5,10 @@ import React, {
     useMemo,
     useState,
 } from "react";
+import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { useItemStorage } from "../hooks/useItemStorage";
-import { FormValues } from "../types/formvalues";
+import { EditFormValues, FormValues } from "../types/formvalues";
 import { Item } from "../types/item";
 
 export type appContextType = {
@@ -19,6 +20,7 @@ export type appContextType = {
     setCurrentView: (value: Item | null) => void;
     addItem: (val: FormValues) => void;
     deleteItem: (id: string) => void;
+    editItem: (val: EditFormValues) => void;
 };
 
 const AppContext = createContext<appContextType>({} as appContextType);
@@ -66,7 +68,27 @@ export function AppProvider({ children }: Props) {
                 const newItems = items.filter(item => item.id !== id);
                 setStoredItems(newItems);
                 setCurrentView(null);
+                toast.error("Successfully deleted item");
             }
+        },
+        [items, setStoredItems]
+    );
+
+    const editItem = useCallback(
+        ({ name, description, imageURL, date, id }: EditFormValues) => {
+            const transformedDate = transformDate(date);
+            const newItem = {
+                id,
+                name,
+                description,
+                imageURL,
+                date: transformedDate,
+            };
+            const newItems = items.map(item =>
+                item.id === id ? newItem : item
+            );
+            setStoredItems(newItems);
+            setCurrentView(newItem);
         },
         [items, setStoredItems]
     );
@@ -81,7 +103,8 @@ export function AppProvider({ children }: Props) {
             isSideBarOpen,
             setIsSideBarOpen,
             deleteItem,
+            editItem,
         };
-    }, [items, addItem, deleteItem, currentView, isSideBarOpen]);
+    }, [items, addItem, deleteItem, currentView, isSideBarOpen, editItem]);
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

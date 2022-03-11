@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { FormValues } from "../../types/formvalues";
 import { useAppContext } from "../../store/AppProvider";
+import { Item } from "../../types/item";
 
 const imageURLregex =
     /(http(s?):)([/|.|\w|\s|-])*\.(jpg|jpeg|png|webp|avif|gif|svg)/g;
@@ -21,30 +22,36 @@ const itemSchema = Yup.object().shape({
     date: Yup.date().required("Date is required"),
 });
 
-export function ItemForm() {
-    const { addItem } = useAppContext();
+type ItemEditFormProps = {
+    item: Item;
+    onCancelEdit: (val: boolean) => void;
+};
+
+export function ItemEditForm({ item, onCancelEdit }: ItemEditFormProps) {
+    const { editItem } = useAppContext();
     const [startDate, setStartDate] = useState(new Date());
     return (
         <div className=" flex flex-col basis-full items-center">
-            <h1 className="mb-6 text-3xl font-bold">Create Item</h1>
+            <h1 className="mb-6 text-3xl font-bold">Edit Item</h1>
             <Formik
                 initialValues={{
-                    name: "",
-                    description: "",
-                    imageURL: "",
-                    date: new Date(),
+                    name: item.name,
+                    description: item.description,
+                    imageURL: item.imageURL,
+                    date: new Date(item.date),
                 }}
                 validationSchema={itemSchema}
                 onSubmit={(
                     values: FormValues,
                     { setSubmitting, resetForm }: FormikHelpers<FormValues>
                 ) => {
-                    addItem(values);
+                    editItem({ ...values, id: item.id });
                     setSubmitting(false);
                     resetForm();
-                    toast.success("Successfully saved 1 item!", {
+                    toast.success("Successfully edited 1 item!", {
                         position: "top-right",
                     });
+                    onCancelEdit(false);
                 }}
             >
                 {({ errors, touched }) => (
@@ -95,12 +102,21 @@ export function ItemForm() {
                             <p className="field-error">{errors.date}</p>
                         ) : null}
 
-                        <button
-                            type="submit"
-                            className="bg-green-400 text-white py-2 px-4 rounded-xl"
-                        >
-                            Submit
-                        </button>
+                        <div className="flex justify-center gap-8">
+                            <button
+                                type="button"
+                                className="bg-red-400 text-white py-2 px-4 rounded-xl"
+                                onClick={() => onCancelEdit(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="bg-green-400 text-white py-2 px-4 rounded-xl"
+                            >
+                                Update
+                            </button>
+                        </div>
                     </Form>
                 )}
             </Formik>
