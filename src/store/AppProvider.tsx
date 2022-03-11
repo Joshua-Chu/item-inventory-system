@@ -5,6 +5,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useItemStorage } from "../hooks/useItemStorage";
 import { FormValues } from "../types/formvalues";
 import { Item } from "../types/item";
@@ -16,7 +17,7 @@ export type appContextType = {
     items: Item[];
     addItem: (val: FormValues) => void;
     currentView: Item | null;
-    setCurrentView: (value: Item) => void;
+    setCurrentView: (value: Item | null) => void;
 };
 
 const AppContext = createContext<appContextType>({} as appContextType);
@@ -44,6 +45,7 @@ export function AppProvider({ children }: Props) {
         ({ name, description, imageURL, date }: FormValues) => {
             const transformedDate = transformDate(date);
             const newItem = {
+                id: uuidv4(),
                 name,
                 description,
                 imageURL,
@@ -55,7 +57,6 @@ export function AppProvider({ children }: Props) {
         [items, setStoredItems]
     );
 
-    console.log(currentView);
     const value = useMemo(() => {
         return {
             name: "",
@@ -66,6 +67,6 @@ export function AppProvider({ children }: Props) {
             isSideBarOpen,
             setIsSideBarOpen,
         };
-    }, [items, addItem]);
+    }, [items, addItem, currentView, isSideBarOpen]);
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

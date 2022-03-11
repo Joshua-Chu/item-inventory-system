@@ -1,8 +1,9 @@
 import { useAppContext } from "../../store/AppProvider";
 import { ItemForm } from "../ItemForm";
+import { ItemView } from "../ItemView";
 
 export function Main() {
-    const { setIsSideBarOpen } = useAppContext();
+    const { setIsSideBarOpen, currentView } = useAppContext();
 
     return (
         <div
@@ -12,7 +13,7 @@ export function Main() {
                 setIsSideBarOpen(false);
             }}
         >
-            <ItemForm />
+            {currentView ? <ItemView /> : <ItemForm />}
         </div>
     );
 }

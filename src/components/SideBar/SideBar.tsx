@@ -2,7 +2,7 @@ import { useAppContext } from "../../store/AppProvider";
 import { ItemList } from "../ItemList";
 
 export function SideBar() {
-    const { setIsSideBarOpen, isSideBarOpen } = useAppContext();
+    const { setIsSideBarOpen, isSideBarOpen, setCurrentView } = useAppContext();
 
     return (
         <div
@@ -38,6 +38,7 @@ export function SideBar() {
                     type="button"
                     onClick={() => {
                         setIsSideBarOpen(false);
+                        setCurrentView(null);
                     }}
                     className="border-2 border-gray-300 px-4 py-2 rounded-2xl text-black ml-0 flex justify-center items-center gap-2"
                 >
