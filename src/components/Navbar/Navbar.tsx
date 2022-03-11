@@ -5,7 +5,7 @@ type NavbarProps = {
 
 export function Navbar({ setIsSideBarOpen, isSideBarOpen }: NavbarProps) {
     return (
-        <div className="bg-gray-800 text-gray-100 flex justify-between md:hidden">
+        <div className="bg-gray-800 text-gray-100 flex justify-between md:hidden rounded-t-md">
             <button
                 onClick={() => {
                     setIsSideBarOpen(!isSideBarOpen);
