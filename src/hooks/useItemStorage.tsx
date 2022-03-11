@@ -13,6 +13,7 @@ export function useItemStorage<T>(
         } else {
             setItems(JSON.parse(storedItems));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const setStoredItems = (value: T) => {
