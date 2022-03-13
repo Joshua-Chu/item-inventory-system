@@ -39,7 +39,7 @@ export function ItemForm() {
                     values: FormValues,
                     { setSubmitting, resetForm }: FormikHelpers<FormValues>
                 ) => {
-                    addItem(values);
+                    addItem({ ...values, date: startDate });
                     setSubmitting(false);
                     resetForm();
                     toast.success("Successfully saved 1 item!", {

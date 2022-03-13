@@ -26,7 +26,7 @@ export type appContextType = {
     filteredList: Item[];
 };
 
-const AppContext = createContext<appContextType>({} as appContextType);
+export const AppContext = createContext<appContextType>({} as appContextType);
 
 export function useAppContext() {
     return useContext(AppContext);
@@ -43,21 +43,15 @@ export function AppProvider({ children }: Props) {
 
     const [searchTerm, setSearchTerm] = useState("");
 
-    const transformDate = (date: Date) => {
-        const arrDate = new Date(date).toLocaleDateString().split("/");
-        arrDate[0] = arrDate[0].length === 1 ? `0${arrDate[0]}` : arrDate[0];
-        return arrDate.join("-");
-    };
-
     const addItem = useCallback(
         ({ name, description, imageURL, date }: FormValues) => {
-            const transformedDate = transformDate(date);
+            console.log(date, "\n ", new Date());
             const newItem = {
                 id: uuidv4(),
                 name,
                 description,
                 imageURL,
-                date: transformedDate,
+                date,
             };
             const newItems = [...items, newItem];
             setStoredItems(newItems);
@@ -81,13 +75,12 @@ export function AppProvider({ children }: Props) {
 
     const editItem = useCallback(
         ({ name, description, imageURL, date, id }: EditFormValues) => {
-            const transformedDate = transformDate(date);
             const newItem = {
                 id,
                 name,
                 description,
                 imageURL,
-                date: transformedDate,
+                date,
             };
             const newItems = items.map(item =>
                 item.id === id ? newItem : item
@@ -99,10 +92,18 @@ export function AppProvider({ children }: Props) {
     );
 
     const filteredList = useMemo(() => {
-        if (searchTerm === "") return items;
+        if (searchTerm === "") {
+            return items.sort(
+                (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
+            );
+        }
 
-        return items.filter(
+        const rawFilteredItems = items.filter(
             item => item.name.includes(searchTerm.toLowerCase()) && item
+        );
+
+        return rawFilteredItems.sort(
+            (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
         );
     }, [items, searchTerm]);
 
